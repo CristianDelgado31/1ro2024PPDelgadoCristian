@@ -136,6 +136,7 @@ function RegistrarPersona() {
     }
     renderData(resultado);
     addEventListener("click", MostrarFormRegistro());
+    addEventListener("click", CancelarFormulario());
 }
 
 function ActualizarRegistro() {
@@ -168,6 +169,7 @@ function ActualizarRegistro() {
 
     renderData(resultado);
     addEventListener("click", MostrarActualizarRegistro());
+    addEventListener("click", CancelarFormulario());
 }
 
 
@@ -254,6 +256,7 @@ function EliminarRegistro(){
     }
     renderData(resultado)
     addEventListener("click",MostrarElimnarRegistro())
+    addEventListener("click", CancelarFormulario());
     
 }
 
