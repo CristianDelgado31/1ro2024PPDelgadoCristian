@@ -1,0 +1,101 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.main {
+    display: flex;
+    height: 50vh;
+    width: 50vw;
+    background-color: grey;
+    margin: 3vh auto;
+    flex-direction: column;
+    /* Agrega desplazamiento horizontal si es necesario */
+    /* overflow-x: auto; */
+}
+
+.caja_buscar {
+    display: flex;
+}
+
+.caja_checkbox {
+    margin-left: 2px;
+}
+
+.form_registrar{
+    background-color: tomato;
+    display: none;
+    flex-direction: column;
+    padding: 1vw 3vw;
+}
+
+.form_editar {
+    background-color: #d5d909;
+    display: flex;
+    flex-direction: column;
+    padding: 1vw 3vw;
+
+}
+
+.form_eliminar {
+    background-color: #f1f1f1;
+    display: none;
+    flex-direction: column;
+    padding: 1vw 3vw;
+
+}
+
+#caja_ciudadano, #caja_extranjero, #caja_ciudadano_editar, #caja_extranjero_editar {
+    display: none;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.tabla_datos {
+    width: 100%;
+    border-collapse: collapse; /* Elimina los espacios entre las celdas */
+}
+
+/* Establece un ancho específico para todas las celdas */
+th, td {
+    border: 1px solid #c1b6b6; /* Borde */
+    text-align: left; /* Alineación del texto */
+    padding: 8px; /* Espaciado interno */
+    width: auto; /* Ancho específico para todas las celdas */
+}
+
+
+
+/* Estilo para el tbody */
+.tabla_datos tbody {
+    background-color: #ffffff;
+}
+
+.tabla_datos thead {
+    background-color: black;
+    color: white;
+}
+
+.caja_botones {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+
+@media screen and (max-width: 768px) {
+    .main {
+        width: 145%;
+        
+
+    }
+    .tabla_datos {
+        width: 100%;
+    }
+
+    
+}
+
+
+
+
