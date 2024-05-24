@@ -107,18 +107,18 @@ function GenerarId(){
             break
         }
     }
-    document.getElementById("id").value = randomId
+    document.getElementById("id_registrar").value = randomId
     console.log("ID aleatorio: ", randomId)
 }
 
 function RegistrarPersona() {
-    let id = document.getElementById("id").value;
-    let nombre = document.getElementById("nombre").value;
-    let apellido = document.getElementById("apellido").value;
-    let fechaNacimiento = document.getElementById("fechaNacimiento").value;
+    let id = document.getElementById("id_registrar").value;
+    let nombre = document.getElementById("nombre_registrar").value;
+    let apellido = document.getElementById("apellido_registrar").value;
+    let fechaNacimiento = document.getElementById("fechaNacimiento_registrar").value;
     fechaNacimiento = fechaNacimiento.substring(0, 4) + "-" + fechaNacimiento.substring(5, 7) + "-" + fechaNacimiento.substring(8, 10);
-    let dni = document.getElementById("dni").value;
-    let paisOrigen = document.getElementById("paisOrigen").value;
+    let dni = document.getElementById("dni_registrar").value;
+    let paisOrigen = document.getElementById("paisOrigen_registrar").value;
     let valorTipo = document.getElementById("Tipo").value;
 
     // Validar que se ingresen todos los datos necesarios
@@ -135,19 +135,20 @@ function RegistrarPersona() {
         resultado.push(ingresarPersona);
     }
     renderData(resultado);
-    addEventListener("click", MostrarFormRegistro());
+    addEventListener("click", MostrarFormularios());
     addEventListener("click", CancelarFormulario());
 }
 
 function ActualizarRegistro() {
     let id = document.getElementById("id_editar").value;
     id = parseInt(id);
+    console.log(id)
     let nombre = document.getElementById("nombre_editar").value;
     let apellido = document.getElementById("apellido_editar").value;
     let fechaNacimiento = document.getElementById("fechaNacimiento_editar").value;
     let dni = document.getElementById("dni_editar").value;
     let paisOrigen = document.getElementById("paisOrigen_editar").value;
-
+    let valorTipo = document.getElementById("Tipo_editar").value;
     // Validar que se ingresen todos los datos necesarios
     if (!id || !nombre || !apellido || !fechaNacimiento || (valorTipo === "Ciudadano" && (!dni || dni <= 0)) || (valorTipo === "Extranjero" && !paisOrigen)) {
         alert("Por favor, complete todos los campos obligatorios correctamente.");
@@ -155,11 +156,12 @@ function ActualizarRegistro() {
     }
 
     let ingresarPersona;
-    let valorTipo = document.getElementById("Tipo_editar").value;
     if (valorTipo == "Ciudadano" && dni) {
         ingresarPersona = new Ciudadano(id, nombre, apellido, fechaNacimiento, dni);
+        document.getElementById("caja_ciudadano_editar").style.display = "none";
     } else if (valorTipo == "Extranjero" && paisOrigen) {
         ingresarPersona = new Extranjero(id, nombre, apellido, fechaNacimiento, paisOrigen);
+        document.getElementById("caja_extranjero_editar").style.display = "none";
     }
 
     let index = resultado.findIndex(p => p.id == id);
@@ -168,7 +170,7 @@ function ActualizarRegistro() {
     }
 
     renderData(resultado);
-    addEventListener("click", MostrarActualizarRegistro());
+    // addEventListener("click", MostrarActualizarRegistro());
     addEventListener("click", CancelarFormulario());
 }
 
@@ -195,45 +197,34 @@ function ModificarDisplay(cajaCiudadano, cajaExtranjero, displayCiudadano, displ
 }
 
 // Mostrar form registro
-function MostrarFormRegistro(){
-    toggleElementDisplay("form_registrar");
-}
-MostrarFormRegistro()
-
-
-// //Actualizar registro
-function MostrarActualizarRegistro(){
-    toggleElementDisplay("form_editar");
-}
-MostrarActualizarRegistro()
-
-
-function MostrarElimnarRegistro(){
-    toggleElementDisplay("form_eliminar");
-}
-MostrarElimnarRegistro()
-
-// Función para mostrar u ocultar un elemento basado en su ID
-function toggleElementDisplay(elementId) {
-    let element = document.getElementById(elementId);
+function MostrarFormularios(){
+    let element = document.getElementById("form_registrar");
     if (element.style.display === "none") {
         element.style.display = "flex";
-        if(elementId == "form_registrar"){
-            GenerarId()
-            document.getElementById("tablaDatos").style.display = "none";
-            document.getElementById("form_editar").style.display = "flex";
-            document.getElementById("form_eliminar").style.display = "flex";
-        }
+        document.getElementById("tablaDatos").style.display = "none";
+        document.getElementById("form_editar").style.display = "flex";
+        document.getElementById("form_eliminar").style.display = "flex";
+        document.getElementById("btnAgregar").style.display = "none";
+        document.getElementById("btnCancelar").style.display = "flex";
+        GenerarId()
     } else {
         element.style.display = "none";
     }
+    
 }
+MostrarFormularios()
+
+
 
 function CancelarFormulario(){
     document.getElementById("form_registrar").style.display = "none";
     document.getElementById("form_editar").style.display = "none";
     document.getElementById("form_eliminar").style.display = "none";
     document.getElementById("tablaDatos").style.display = "table";
+    document.getElementById("btnCancelar").style.display = "none";
+    document.getElementById("btnAgregar").style.display = "flex";
+    document.getElementById("form_editar").reset(); // Limpiar el formulario
+    document.getElementById("form_eliminar").reset();
 }
 
 // // Función para limpiar y mostrar datos en la tabla
@@ -248,21 +239,54 @@ function renderData(data) {
 
 
 function EliminarRegistro(){
-    let id = document.getElementById("id_eliminar").value
-    id = parseInt(id)
-    let index = resultado.findIndex(p => p.id == id)
-    if(index != -1){
-        resultado.splice(index, 1)
+    let id = document.getElementById("id_eliminar").value;
+    id = parseInt(id);
+    let nombre = document.getElementById("nombre_eliminar").value;
+    let apellido = document.getElementById("apellido_eliminar").value;
+    let fechaNacimiento = document.getElementById("fechaNacimiento_eliminar").value;
+    let dni = document.getElementById("dni_eliminar").value;
+    let paisOrigen = document.getElementById("paisOrigen_eliminar").value;
+
+    if(!id){
+        alert("Por favor, seleccione un registro a eliminar");
+        return;
     }
-    renderData(resultado)
-    addEventListener("click",MostrarElimnarRegistro())
-    addEventListener("click", CancelarFormulario());
-    
+
+    let index = resultado.findIndex(p => p.id == id);
+    let persona = resultado[index];
+    console.log(persona)
+
+    let mensajeError = "No se pudo eliminar el registro";
+
+    if(persona.id == id && persona.nombre == nombre && persona.apellido == apellido && persona.fechaNacimiento == fechaNacimiento){
+        if(persona.constructor.name == "Ciudadano"){
+            if(persona.dni == dni){
+                resultado.splice(index, 1); // Esto elimina el elemento en la posición index
+                renderData(resultado);
+            }
+            else {
+                alert(mensajeError);
+            }
+        }
+        else if(persona.constructor.name == "Extranjero"){
+            if(persona.paisOrigen == paisOrigen){
+                resultado.splice(index, 1);
+                renderData(resultado);
+            }
+            else {
+                alert(mensajeError);
+            }
+            
+        }
+    }
+    else{
+        alert(mensajeError);
+    }
+
 }
 
 
 // // Checkboxes
-
 function handleCheckboxChange(index) {
     let tabla = document.getElementById("tablaDatos");
     let checkboxes = document.querySelectorAll(".caja_checkbox input[type=checkbox]");
@@ -336,43 +360,107 @@ function calcularEdad(fechaNacimiento) {
     return edad;
 }
 
-
-//
+// Volver a registrar los eventos para los doble clics
 document.addEventListener("DOMContentLoaded", function() {
-    // Obtener todas las celdas de la columna ID
-    let idCells = document.querySelectorAll(".tabla_datos tbody td:first-child");
+    // Obtener el tbody de la tabla
+    let tbody = document.querySelector("#tablaDatos tbody");
 
-    // Agregar un controlador de eventos de clic a cada celda de ID
-    idCells.forEach(function(cell) {
-        cell.addEventListener("click", function() {
-            // Obtener el valor de la celda clicada
-            let idValue = cell.textContent;
-            // Mostrar el valor en la consola (puedes hacer lo que desees con él)
-            console.log("Valor de la celda ID:", idValue);
-            document.getElementById("id_editar").value = idValue
-            document.getElementById("id_eliminar").value = idValue
+    // Agregar un controlador de eventos de doble clic al tbody
+    tbody.addEventListener("dblclick", function(event) {
+        // Verificar si el clic ocurrió en una fila (tr)
+        let fila = event.target.closest("tr"); // Devuelve el elemento más cercano que es un tr
+        if (fila) {
+            // Obtener el valor de la celda ID de la fila
+            let idValue = fila.firstChild.textContent;
+            // Realizar acciones aquí cuando se haga doble clic en una fila
+            let persona = resultado.find(p => p.id == idValue);
 
-        });
+            // Elimina el registro
+            document.getElementById("id_eliminar").value = persona.id;
+            document.getElementById("nombre_eliminar").value = persona.nombre;
+            document.getElementById("apellido_eliminar").value = persona.apellido;
+            document.getElementById("fechaNacimiento_eliminar").value = persona.fechaNacimiento;
+            if(persona.constructor.name == "Ciudadano"){
+                document.getElementById("dni_eliminar").value = persona.dni ? persona.dni : "";
+            }
+            else {
+                document.getElementById("paisOrigen_eliminar").value = persona.paisOrigen ? persona.paisOrigen : "";
+            }
+            document.getElementById("Tipo_eliminar").value = persona.constructor.name;
+            // MostrarElimnarRegistro();
+            
+            if(persona.constructor.name == "Ciudadano"){
+                ModificarDisplay("caja_ciudadano_eliminar", "caja_extranjero_eliminar", "flex", "none");
+            }
+            else if(persona.constructor.name == "Extranjero"){
+                ModificarDisplay("caja_ciudadano_eliminar", "caja_extranjero_eliminar", "none", "flex");
+            }
+            // Edita el registro
+            document.getElementById("id_editar").value = persona.id;
+            document.getElementById("nombre_editar").value = persona.nombre;
+            document.getElementById("apellido_editar").value = persona.apellido;
+            document.getElementById("fechaNacimiento_editar").value = persona.fechaNacimiento;
+            if(persona.constructor.name == "Ciudadano"){
+                document.getElementById("dni_editar").value = persona.dni ? persona.dni : "";
+            }
+            else {
+                document.getElementById("paisOrigen_editar").value = persona.paisOrigen ? persona.paisOrigen : "";
+            }
+            document.getElementById("Tipo_editar").value = persona.constructor.name;
+            MostrarFormularios();
+            
+            if(persona.constructor.name == "Ciudadano"){
+                ModificarDisplay("caja_ciudadano_editar", "caja_extranjero_editar", "flex", "none");
+            }
+            else if(persona.constructor.name == "Extranjero"){
+                ModificarDisplay("caja_ciudadano_editar", "caja_extranjero_editar", "none", "flex");
+            }
+            console.log("Se hizo doble clic en la fila:", idValue);
+        }
     });
 });
 
 
-//Dudodo forma de ordenar
-let ascending = true; // Variable global para rastrear el orden ascendente/descendente
 
-function ordenarPorColumna(columna) {
+//ordenamiento
+let ascending = true; // Variable para rastrear el orden ascendente/descendente
+
+function ordenarPorColumna(column) {
     let table = document.getElementById("tablaDatos");
     let tbody = table.getElementsByTagName("tbody")[0];
     let rows = Array.from(tbody.getElementsByTagName("tr"));
 
+    let filterType = document.getElementById("filtrar").value;
+
+    if(filterType == "Ciudadano" && column == 5 || filterType == "Extranjero" && column == 4){
+        return
+    }
+
+    // Ordenar las filas según el contenido de la columna seleccionada
     rows.sort((a, b) => {
-        let aValue = a.getElementsByTagName("td")[columna].innerText.toLowerCase();
-        let bValue = b.getElementsByTagName("td")[columna].innerText.toLowerCase();
-        
-        if (isNaN(aValue)) {
-            return ascending ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
+        let aValue = a.getElementsByTagName("td")[column].innerText.trim();
+        let bValue = b.getElementsByTagName("td")[column].innerText.trim();
+
+        // Manejar valores vacíos o nulos
+        if (!aValue) return ascending ? 1 : -1;
+        if (!bValue) return ascending ? -1 : 1;
+
+        // Intentar convertir a número
+        let aNumber = parseFloat(aValue);
+        let bNumber = parseFloat(bValue);
+
+        if (!isNaN(aNumber) && !isNaN(bNumber)) {
+            // Si ambos son números, comparar como números
+            return ascending ? aNumber - bNumber : bNumber - aNumber;
         } else {
-            return ascending ? parseFloat(aValue) - parseFloat(bValue) : parseFloat(bValue) - parseFloat(aValue);
+            // Si no son números, comparar como cadenas
+            if (aValue < bValue) {
+                return ascending ? -1 : 1;
+            }
+            if (aValue > bValue) {
+                return ascending ? 1 : -1;
+            }
+            return 0;
         }
     });
 
@@ -382,4 +470,5 @@ function ordenarPorColumna(columna) {
     // Cambiar la dirección de ordenamiento para la próxima vez que se haga clic
     ascending = !ascending;
 }
+
 

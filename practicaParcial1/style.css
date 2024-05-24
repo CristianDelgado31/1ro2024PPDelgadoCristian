@@ -11,8 +11,6 @@ body {
     background-color: grey;
     margin: 3vh auto;
     flex-direction: column;
-    /* Agrega desplazamiento horizontal si es necesario */
-    /* overflow-x: auto; */
 }
 
 .caja_buscar {
@@ -32,7 +30,7 @@ body {
 
 .form_editar {
     background-color: #d5d909;
-    display: flex;
+    display: none;
     flex-direction: column;
     padding: 1vw 3vw;
 
@@ -46,7 +44,7 @@ body {
 
 }
 
-#caja_ciudadano, #caja_extranjero, #caja_ciudadano_editar, #caja_extranjero_editar {
+#caja_ciudadano, #caja_extranjero, #caja_ciudadano_editar, #caja_extranjero_editar, #caja_extranjero_eliminar, #caja_ciudadano_eliminar {
     display: none;
     flex-direction: column;
     margin-bottom: 10px;
@@ -94,6 +92,10 @@ th, td {
     }
 
     
+}
+
+#btnCancelar {
+    display: none;
 }
 
 

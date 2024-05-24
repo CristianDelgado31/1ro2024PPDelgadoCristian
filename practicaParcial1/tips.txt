@@ -1,0 +1,2 @@
+Cuando agrego un registro o cuando filtro en promedio por x tipo de persona tengo que revisar los checkboxes para que no se rompa el
+tbody del table

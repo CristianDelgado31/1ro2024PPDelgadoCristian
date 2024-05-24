@@ -28,17 +28,17 @@
                 <label>Mostrar Columnas:</label>
                 <div class="caja_checkbox">
                     <input type="checkbox" id="id_checkbox" name="ID" value="ID" onchange="handleCheckboxChange(0)">
-                    <label for="ID">ID</label>
+                    <label for="id_checkbox">ID</label>
                     <input type="checkbox" id="Nombre" name="Nombre" value="Nombre" onchange="handleCheckboxChange(1)">
                     <label for="Nombre">Nombre</label>
                     <input type="checkbox" id="Apellido" name="Apellido" value="Apellido" onchange="handleCheckboxChange(2)">
                     <label for="Apellido">Apellido</label>
                     <input type="checkbox" id="fechaNacimiento" name="fechaNacimiento" value="fechaNacimiento" onchange="handleCheckboxChange(3)">
-                    <label for="fechaNacimiento_cbx">Edad</label>
-                    <input type="checkbox" id="dni" name="dni" value="dni" onchange="handleCheckboxChange(4)">
-                    <label for="Dni">Dni</label>
-                    <input type="checkbox" id="paisOrigen" name="pais" value="País de origen" onchange="handleCheckboxChange(5)">
-                    <label for="PaisOrigen_cbx">País de origen</label>
+                    <label for="fechaNacimiento">Fecha de nacimiento</label>
+                    <input type="checkbox" id="dni" name="DNI" value="dni" onchange="handleCheckboxChange(4)">
+                    <label for="dni">DNI</label>
+                    <input type="checkbox" id="paisOrigen" name="paisOrigen" value="País de origen" onchange="handleCheckboxChange(5)">
+                    <label for="paisOrigen">País de origen</label>
                 </div>
                 <table class="tabla_datos" id="tablaDatos" border="2">
                     <thead>
@@ -46,7 +46,7 @@
                             <th onclick="ordenarPorColumna(0)">ID</th>
                             <th onclick="ordenarPorColumna(1)">Nombre</th>
                             <th onclick="ordenarPorColumna(2)">Apellido</th>
-                            <th onclick="ordenarPorColumna(3)">Edad</th>
+                            <th onclick="ordenarPorColumna(3)">Fecha de nacimiento</th>
                             <th onclick="ordenarPorColumna(4)">Dni</th>
                             <th onclick="ordenarPorColumna(5)">País de origen</th>
                         </tr>
@@ -57,22 +57,20 @@
 
             <!-- </div> -->
             <div class="caja_botones">
-                <button type="button" id="btnAgregar" onclick="MostrarFormRegistro()">Agregar</button>
-                <button type="button" id="btnEditar" onclick="MostrarActualizarRegistro()">Editar</button>
-                <button type="button" id="btnEliminar" onclick="MostrarElimnarRegistro()">Eliminar</button>
+                <button type="button" id="btnAgregar" onclick="MostrarFormularios()">Agregar</button>
                 <button type="button" id="btnCancelar" onclick="CancelarFormulario()">Cancelar</button>
             </div>
             <!-- Registro -->
             <form class="form_registrar" id="form_registrar">
                 <h1>Form Registrar</h1>
                 <label for="ID">ID:</label>
-                <input type="text" id="id" name="ID" placeholder="ID" readonly>
+                <input type="text" id="id_registrar" name="ID" placeholder="ID" readonly>
                 <label for="Nombre">Nombre:</label>
-                <input type="text" id="nombre" name="Nombre" placeholder="Nombre" required>
+                <input type="text" id="nombre_registrar" name="Nombre" placeholder="Nombre" required>
                 <label for="Apellido">Apellido:</label>
-                <input type="text" id="apellido" name="Apellido" placeholder="Apellido">
+                <input type="text" id="apellido_registrar" name="Apellido" placeholder="Apellido">
                 <label for="fechaNacimiento">Fecha de nacimiento:</label>
-                <input type="date" id="fechaNacimiento" name="fechaNacimiento">
+                <input type="date" id="fechaNacimiento_registrar" name="fechaNacimiento">
                 <label for="Tipo">Tipo:</label>
                 <select onchange="ValorDeTipo('Tipo', 'caja_ciudadano', 'caja_extranjero')" name="Tipo" id="Tipo" >
                     <option value="Seleccionar">Seleccionar</option>
@@ -81,11 +79,11 @@
                 </select>
                 <div id="caja_ciudadano">
                     <label for="dni" class="dni">Dni:</label>
-                    <input type="number" id="dni" name="dni" placeholder="dni">
+                    <input type="number" id="dni_registrar" name="dni" placeholder="dni">
                 </div>
                 <div id="caja_extranjero">
                     <label for="PaisOrigen" class="PaisOrigen">País de origen:</label>
-                    <input type="text" id="paisOrigen" name="paisOrigen" placeholder="Ingrese un país">
+                    <input type="text" id="paisOrigen_registrar" name="paisOrigen" placeholder="Ingrese un país">
                 </div>
                 <button type="reset" id="btnGuardar" onclick="RegistrarPersona()">Guardar</button>
             </form>
@@ -101,11 +99,7 @@
                 <label for="FechaNacimiento">Fecha de nacimiento:</label>
                 <input type="date" id="fechaNacimiento_editar" name="fechaNacimiento">
                 <label for="Tipo">Tipo:</label>
-                <select onchange="ValorDeTipo('Tipo_editar', 'caja_ciudadano_editar', 'caja_extranjero_editar')" name="Tipo" id="Tipo_editar" >
-                    <option value="Seleccionar">Seleccionar</option>
-                    <option value="Ciudadano">Ciudadano</option>
-                    <option value="Extranjero">Extranjero</option>
-                </select>
+                <input name="Tipo" id="Tipo_editar" readonly>
                 <div id="caja_ciudadano_editar">
                     <label for="Dni" class="dni">Dni:</label>
                     <input type="number" id="dni_editar" name="dni" placeholder="Ingrese su dni">
@@ -120,7 +114,23 @@
             <form class="form_eliminar" id="form_eliminar">
                 <h1>Form Eliminar</h1>
                 <label for="ID">ID:</label>
-                <input type="number" id="id_eliminar" name="ID" placeholder="ID" required>
+                <input type="number" id="id_eliminar" name="ID" placeholder="ID" required readonly>
+                <label for="Nombre">Nombre:</label>
+                <input type="text" id="nombre_eliminar" name="Nombre" placeholder="Nombre" required readonly>
+                <label for="Apellido">Apellido:</label>
+                <input type="text" id="apellido_eliminar" name="Apellido" placeholder="Apellido" readonly>
+                <label for="FechaNacimiento">Fecha de nacimiento:</label>
+                <input type="date" id="fechaNacimiento_eliminar" name="fechaNacimiento" readonly>
+                <label for="Tipo">Tipo:</label>
+                <input name="Tipo" id="Tipo_eliminar" readonly>
+                <div id="caja_ciudadano_eliminar">
+                    <label for="Dni" class="dni">Dni:</label>
+                    <input type="number" id="dni_eliminar" name="dni" placeholder="Ingrese su dni" readonly>
+                </div>
+                <div id="caja_extranjero_eliminar">
+                    <label for="PaisOrigen" class="PaisOrigen">País de origen:</label>
+                    <input type="text" id="paisOrigen_eliminar" name="Ventas" placeholder="Ingrese un país" readonly>
+                </div>
                 <button type="reset" id="btnEliminar" onclick="EliminarRegistro()">Eliminar</button>
             </form>
 
